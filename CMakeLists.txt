@@ -101,7 +101,7 @@ if(DEFINED CMAKE_BUILD_TYPE)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "${CMAKE_CONFIGURATION_TYPES}")
 endif()
 
-option(ENABLE_PIC "Generate position independent code (necessary for shared libraries)" TRUE)
+option(ENABLE_PIC "Generate position independent code (necessary for shared libraries)" FALSE)
 set(CMAKE_POSITION_INDEPENDENT_CODE ${ENABLE_PIC})
 
 ocv_cmake_hook(PRE_CMAKE_BOOTSTRAP)

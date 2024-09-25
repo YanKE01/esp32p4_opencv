@@ -1,6 +1,6 @@
-#!/bin/bash
+!/bin/bash
 
-# Delete the current build directory
+Delete the current build directory
 if [ -d "build" ]; then
   echo "Deleting existing build directory..."
   rm -rf build
@@ -15,6 +15,7 @@ cd build
 echo "Running CMake configuration..."
 cmake -DBUILD_SHARED_LIBS=OFF \
       -DCV_DISABLE_OPTIMIZATION=OFF \
+      -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules \
       -DWITH_IPP=OFF \
       -DWITH_TBB=OFF \
       -DWITH_OPENMP=OFF \
@@ -47,12 +48,18 @@ cmake -DBUILD_SHARED_LIBS=OFF \
       -DWITH_IMGCODEC_SUNRASTER=OFF \
       -DWITH_IMGCODEC_PXM=OFF \
       -DWITH_IMGCODEC_PFM=OFF \
-      -DBUILD_LIST=core,imgproc,imgcodecs \
+      -DBUILD_LIST=core,imgproc,imgcodecs,tracking \
       -DBUILD_JAVA=OFF \
       -DBUILD_opencv_python=OFF \
       -DBUILD_opencv_java=OFF \
       -DBUILD_opencv_apps=OFF \
-      -DBUILD_PACKAGE=OFF \
+      -DBUILD_opencv_bgsegm=OFF \
+      -DBUILD_opencv_datasets=OFF \
+      -DBUILD_opencv_objdetect=ON \
+      -DBUILD_opencv_tracking=ON \
+      -DBUILD_opencv_video=ON \
+      -DBUILD_PACKAGE=ON \
+      -DBUILD_opencv_videoio=OFF \
       -DBUILD_PERF_TESTS=OFF \
       -DBUILD_TESTS=OFF \
       -DCV_ENABLE_INTRINSICS=OFF \
@@ -96,5 +103,14 @@ fi
 if [ -d "include/opencv2" ]; then
     cp -r include/opencv2/* esp32p4/lib/release_build/opencv/opencv2/
 fi
+
+if [ -d "opencv_contrib/modules/tracking/include/opencv2" ]; then
+    cp -r opencv_contrib/modules/tracking/include/opencv2/* esp32p4/lib/release_build/opencv/opencv2/
+fi
+
+if [ -d "modules/video/include/opencv2" ]; then
+    cp -r modules/video/include/opencv2/* esp32p4/lib/release_build/opencv/opencv2/
+fi
+
 
 echo "Build opencv for ESP32P4 completed."
